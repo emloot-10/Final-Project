@@ -85,5 +85,5 @@ tbl_summary(
 
 ###"CREATE A FIGURE"###
 
-
-hist(cytomeg$time.to.cmv)
+hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
+		 col = "purple")

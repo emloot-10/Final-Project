@@ -1,0 +1,48 @@
+---
+title: "Final Project"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+#| lab: "Table 1"
+#| tbl_summary(
+cytomeg,
+by = sex,
+include = c(
+	sex, diagnosis.type, prior.radiation, prior.chemo, cmv, time.to.cmv
+),
+label = list(
+	diagnosis.type ~ "Type of Diagnosis (0 = lymphoid, 1 = myeloid)",
+	prior.radiation ~ "Prior radiation (0 = no, 1 = yes)",
+	time.to.cmv ~ "Time to CMV reactivation (in months)",
+	cmv ~ "Cytomegalovirus reactivation posttransplant (0 = no, 1 = yes)",
+	prior.chemo ~ "Number of prior chemotherapy regimens"
+),   missing_text = "Missing"
+) |>
+		# change the test used to compare sex_cat groups
+		add_p(test = list(
+			all_continuous() ~ "t.test",
+			all_categorical() ~ "chisq.test"
+		)) |>
+		# add a total column with the number of observations
+		add_overall(col_label = "**Total** N = {N}") |>
+		bold_labels()
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
