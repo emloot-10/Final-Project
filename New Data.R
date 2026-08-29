@@ -65,12 +65,10 @@ tbl_summary(
 		prior.transplant ~ "Prior transplant (0 = no, 1 = yes)"
 	),   missing_text = "Missing"
 ) |>
-	# change the test used to compare sex_cat groups
 	add_p(test = list(
 		all_continuous() ~ "t.test",
 		all_categorical() ~ "chisq.test"
 	)) |>
-	# add a total column with the number of observations
 	add_overall(col_label = "**Total** N = {N}") |>
 	bold_labels()
 
