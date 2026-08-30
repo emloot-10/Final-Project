@@ -4,31 +4,28 @@ format: html
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
 #| echo: false
+#| warning: false
+remotes::install_github("higgi13425/medicaldata")
+library(medicaldata)
+library(readr)
+library(gtsummary)
 cytomeg <- medicaldata::cytomegalovirus
 
 ```
-
-You can add options to executable code like this
 
 ```{r}
 #| label: desc-tbl
 #| tbl-cap: "Table 1"
 #| echo: false
-tbl_summary(
+#| warning: false
+
+desc_stats<- tbl_summary(
 cytomeg, 
 by = sex,
 include = c(
-	sex, diagnosis.type, prior.radiation, prior.chemo, cmv, time.to.cmv
+	diagnosis.type, prior.radiation, prior.chemo, cmv, time.to.cmv
 ),
 label = list(
 	diagnosis.type ~ "Type of Diagnosis (0 = lymphoid, 1 = myeloid)",
@@ -44,9 +41,9 @@ label = list(
 		)) |>
 		add_overall(col_label = "**Total** N = {N}") |>
 		bold_labels()
-```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+desc_stats
+```
 
 ```{r}
 #|label: reg_tbl
@@ -60,5 +57,15 @@ regress<- tbl_uvregression(
 	method = lm
 )
 
+regress
 inline_text(regress, variable = "cmv")
+```
+
+```{r}
+#| label: figure
+#| fig-cap: "Figure 1"
+#| echo: false
+
+fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
+		 col = "navy")
 ```
