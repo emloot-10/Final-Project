@@ -41,7 +41,6 @@ cytomeg <- medicaldata::cytomegalovirus
 y_n <- function(data){
 	yn<-ifelse(data == 0, "no",
 				 ifelse(data == 1, "yes", NA))
-	return(yn)
 }
 
 #creating a new column in the df to make it a character variable
@@ -63,7 +62,7 @@ cytomeg$prior.radiation <- as.character(cytomeg$prior.radiation)
 
 
 
-tbl_summary(
+desc_stats <- tbl_summary(
 	cytomeg,
 	by = sex,
 	include = c(
@@ -85,6 +84,31 @@ tbl_summary(
 	add_overall(col_label = "**Total** N = {N}") |>
 	bold_labels()
 
+
+
+#using the new character variables in the descriptive stats:
+
+char_desc_stats <- tbl_summary(
+	cytomeg,
+	by = sex,
+	include = c(
+		sex, diagnosis.type, prior.radiation.char, prior.chemo, prior.transplant.char, cmv.char, time.to.cmv
+	),
+	label = list(
+		diagnosis.type ~ "Type of Diagnosis (0 = lymphoid, 1 = myeloid)",
+		prior.radiation.char ~ "Had prior radiation treatment",
+		time.to.cmv ~ "Time to CMV reactivation (in months)",
+		cmv.char ~ "Had cytomegalovirus reactivation posttransplant",
+		prior.chemo ~ "Number of prior chemotherapy regimens",
+		prior.transplant.char ~ "Had a prior transplant"
+	),   missing_text = "Missing"
+) |>
+	add_p(test = list(
+		all_continuous() ~ "t.test",
+		all_categorical() ~ "chisq.test"
+	)) |>
+	add_overall(col_label = "**Total** N = {N}") |>
+	bold_labels()
 
 
 

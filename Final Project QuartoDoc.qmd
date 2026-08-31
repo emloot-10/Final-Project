@@ -72,5 +72,10 @@ fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Mo
 
 ```{r}
 
-@figure 
+timeto_med<-inline_text(desc_stats, variable = "time.to.cmv", 
+						pattern = "{median} months")
+
+
 ```
+
+
