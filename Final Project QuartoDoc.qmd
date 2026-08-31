@@ -52,13 +52,13 @@ desc_stats
 ```
 
 ```{r}
-#|label: tbl-two
-#|tbl-cap: "Regression Table"
-#|echo: false
+#| label: tbl-two
+#| tbl-cap: "Regression Table"
+#| echo: false
 
 regress<- tbl_uvregression(
 	cytomeg,
-	y = prior.chemo,
+	y = sex,
 	include = c(time.to.cmv, cmv, diagnosis.type),
 	label = list(
 		time.to.cmv ~ "Time to CMV reactivation",
@@ -73,25 +73,27 @@ regress
 ```
 
 ```{r}
-#| label: figure
+#| label: fig-one
 #| fig-cap: "Figure 1: Time to CMV Reactivation in months"
 #| echo: false
 
 fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
 		 col = "navy")
 ```
+@fig-one contains a histogram of the time to CMV reactivation after the transplant and
+@tbl-one contains a table of various variables, including time to CMV reactivation, stratified by sex.
 
 ```{r}
-
+#| echo: false
 fem_timeto <- inline_text(desc_stats, variable = "time.to.cmv", column = "stat_1")
 
 timeto_med<-inline_text(desc_stats, variable = "time.to.cmv", 
 						pattern = "{median} months")
 timeto_regress<-inline_text(regress, variable = "time.to.cmv")
+timeto_regress
 
-
-fem_timeto
 
 ```
 
+The median months until CMV reactivation was `r timeto_med`
 
