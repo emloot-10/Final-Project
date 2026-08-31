@@ -18,21 +18,14 @@ cytomeg <- medicaldata::cytomegalovirus
 ###THE FILE PATHS AT LEAST TWICE"
 
 #saving data to computer with here::
-#getwd()
-#setwd("data")
+getwd()
+setwd("data")
 
-#if (!dir.exists(here::here("data", "project", "data.csv"))) {
-#	dir.create(here::here("data", "project", "data.csv"))
-#}
+if (!dir.exists(here::here("data", "project", "data.csv"))) {
+	dir.create(here::here("data", "project", "data.csv"))
+}
 
-
-
-#write_rds(cytomeg, here::here("data", "clean", "cytomegalovirus.rds"))
-
-#here::here again?
-#cyto <- read_csv(here::here("data", "raw", "cytomegalovirus.rds"),
-#								 na = c("-1", "-2", "-3", "-4", "-5", "-998"),
-#								 skip = 1, col_names = cytomeg_cols)
+write_rds(cytomeg, here::here("data", "clean", "cytomegalovirus.rds"))
 
 
 ###"WRITE AND USE A FUNCTION WITH THE DATA"###
