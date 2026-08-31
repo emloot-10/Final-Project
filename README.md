@@ -1,4 +1,6 @@
-#the only note is to not skip the top of the code because it downloads and loads all necessary packages and datasets for the project, running the script
+#Open the "Final Project.Rproj" file to get access to my code and quarto doc, or open either seperately ("Final Project.R" and "Final Project Quarto Doc.qmd")
+
+#Do not skip the top of the code because it downloads and loads all necessary packages and datasets for the project, running the script
 #in the order it is already in will allow the code to run smoothly and work correctly
 #the dataset I used was from higgi13425's "medicaldata" dataset which is a collection of various datasets from various medical cohort studies, from as far back
 #as the late 1700s to as recent as 2022.
