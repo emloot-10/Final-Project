@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Final Project"
 format: html
@@ -101,3 +102,108 @@ timeto_regress<-inline_text(regress, variable = "time.to.cmv")
 The median months until CMV reactivation for the entire 64 person sample was `r timeto_med`, while for females only, it was `r fem_timeto` months, and for males only it was `r inline_text(desc_stats, variable = "time.to.cmv", column = "stat_2", pattern = "{median}")` months.
 
 
+=======
+---
+title: "Final Project"
+format: html
+editor: visual
+---
+
+This data comes from higgi13425's medical data on GitHub. It is a package of a collection of 19 medical datasets which come from historical sources including James Lind's scurvy dataset from 1757, the original streptomycin for TB trial 1948, and cohort data on SARS-CoV2 testing results in 2020. The data I am using comes from a Cytomegalovirus Retrospective Cohort Study of 64 patients including information on allogeneic hematopoietic stem cell transplant, where the primary outcome is time to cytomegalovirus reactivation. (online source: github.com/higgi13425/medicaldata/)
+
+```{r}
+#| echo: false
+#| warning: false
+remotes::install_github("higgi13425/medicaldata")
+library(medicaldata)
+library(readr)
+library(gtsummary)
+cytomeg <- medicaldata::cytomegalovirus
+
+```
+
+```{r}
+#| label: tbl-one
+#| tbl-cap: "Descriptive Statistics"
+#| echo: false
+#| warning: false
+
+cytomeg$diagnosis.type <- as.character(cytomeg$diagnosis.type)
+cytomeg$cmv<-as.character(cytomeg$cmv)
+cytomeg$prior.transplant <- as.character(cytomeg$prior.transplant)
+cytomeg$sex <- as.character(cytomeg$sex)
+cytomeg$prior.radiation <- as.character(cytomeg$prior.radiation)
+
+desc_stats<- tbl_summary(
+cytomeg, 
+by = sex,
+include = c(
+	diagnosis.type, prior.radiation, prior.chemo, cmv, time.to.cmv
+),
+label = list(
+	diagnosis.type ~ "Type of Diagnosis (0 = lymphoid, 1 = myeloid)",
+	prior.radiation ~ "Prior radiation (0 = no, 1 = yes)",
+	time.to.cmv ~ "Time to CMV reactivation (in months)",
+	cmv ~ "Cytomegalovirus reactivation posttransplant (0 = no, 1 = yes)",
+	prior.chemo ~ "Number of prior chemotherapy regimens"
+),   missing_text = "Missing"
+) |>
+		add_p(test = list(
+			all_continuous() ~ "t.test",
+			all_categorical() ~ "chisq.test"
+		)) |>
+		add_overall(col_label = "**Total** N = {N}") |>
+		bold_labels()
+
+desc_stats
+```
+
+```{r}
+#| label: tbl-two
+#| tbl-cap: "Regression Table"
+#| echo: false
+
+regress<- tbl_uvregression(
+	cytomeg,
+	y = sex,
+	include = c(time.to.cmv, cmv, diagnosis.type),
+	label = list(
+		time.to.cmv ~ "Time to CMV reactivation",
+		cmv ~ "CMV reactivation post-transplant (0 = no, 1 = yes)", 
+		diagnosis.type ~ "Type of diagnosis (0 = lymphoid, 1 = myeloid)"
+	),
+	method = lm
+)
+
+regress
+
+```
+
+```{r}
+#| label: fig-one
+#| fig-cap: "Figure 1: Time to CMV Reactivation in months"
+#| echo: false
+
+fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
+		 col = "navy")
+```
+@fig-one contains a histogram of the time to CMV reactivation after the transplant and
+@tbl-one contains a table of various variables, including time to CMV reactivation, stratified by sex.
+
+```{r}
+#| echo: false
+fem_timeto <- inline_text(desc_stats, variable = "time.to.cmv", column = "stat_1", 
+													pattern = "{median}")
+
+timeto_med<-inline_text(desc_stats, variable = "time.to.cmv", 
+						pattern = "{median} months")
+timeto_regress<-inline_text(regress, variable = "time.to.cmv")
+
+
+
+```
+
+The median months until CMV reactivation for the entire 64 person sample was `r timeto_med`, while for females only, it was `r fem_timeto` months, and for males only it was `r inline_text(desc_stats, variable = "time.to.cmv", column = "stat_2", pattern = "{median}")` months.
+
+
+>>>>>>> a8c393399bd51a2d4508b67d33ab9aedca5ab562
