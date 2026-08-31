@@ -3,7 +3,7 @@ title: "Final Project"
 format: html
 editor: visual
 ---
-
+This data comes from higgi13425's medical data on GitHub. It is a package of a collection of 19 medical datasets which come from historical sources including James Lind's scurvy dataset from 1757, the original streptomycin for TB trial 1948, and cohort data on SARS-CoV2 testing results in 2020. The data I am using comes from a Cytomegalovirus Retrospective Cohort Study of 64 patients including information on allogeneic hematopoietic stem cell transplant, where the primary outcome is time to cytomegalovirus reactivation. 
 ```{r}
 #| echo: false
 #| warning: false
@@ -17,9 +17,15 @@ cytomeg <- medicaldata::cytomegalovirus
 
 ```{r}
 #| label: desc-tbl
-#| tbl-cap: "Table 1"
+#| tbl-cap: "Descriptive Statistics"
 #| echo: false
 #| warning: false
+
+cytomeg$diagnosis.type <- as.character(cytomeg$diagnosis.type)
+cytomeg$cmv<-as.character(cytomeg$cmv)
+cytomeg$prior.transplant <- as.character(cytomeg$prior.transplant)
+cytomeg$sex <- as.character(cytomeg$sex)
+cytomeg$prior.radiation <- as.character(cytomeg$prior.radiation)
 
 desc_stats<- tbl_summary(
 cytomeg, 
@@ -47,7 +53,7 @@ desc_stats
 
 ```{r}
 #|label: reg_tbl
-#|tbl-cap: "Table 2 (Regression)"
+#|tbl-cap: "Regression Table"
 #|echo: false
 
 regress<- tbl_uvregression(
@@ -72,9 +78,13 @@ fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Mo
 
 ```{r}
 
+fem_timeto <- inline_text(desc_stats, variable = "time.to.cmv", column = "stat_1")
+
 timeto_med<-inline_text(desc_stats, variable = "time.to.cmv", 
 						pattern = "{median} months")
 
+
+fem_timeto
 
 ```
 
