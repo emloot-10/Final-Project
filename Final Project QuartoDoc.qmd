@@ -3,7 +3,7 @@ title: "Final Project"
 format: html
 editor: visual
 ---
-This data comes from higgi13425's medical data on GitHub. It is a package of a collection of 19 medical datasets which come from historical sources including James Lind's scurvy dataset from 1757, the original streptomycin for TB trial 1948, and cohort data on SARS-CoV2 testing results in 2020. The data I am using comes from a Cytomegalovirus Retrospective Cohort Study of 64 patients including information on allogeneic hematopoietic stem cell transplant, where the primary outcome is time to cytomegalovirus reactivation. 
+This data comes from higgi13425's medical data on GitHub. It is a package of a collection of 19 medical datasets which come from historical sources including James Lind's scurvy dataset from 1757, the original streptomycin for TB trial 1948, and cohort data on SARS-CoV2 testing results in 2020. The data I am using comes from a Cytomegalovirus Retrospective Cohort Study of 64 patients including information on allogeneic hematopoietic stem cell transplant, where the primary outcome is time to cytomegalovirus reactivation. (online source: github.com/higgi13425/medicaldata/)
 ```{r}
 #| echo: false
 #| warning: false
@@ -16,7 +16,7 @@ cytomeg <- medicaldata::cytomegalovirus
 ```
 
 ```{r}
-#| label: desc-tbl
+#| label: tbl-one
 #| tbl-cap: "Descriptive Statistics"
 #| echo: false
 #| warning: false
@@ -52,7 +52,7 @@ desc_stats
 ```
 
 ```{r}
-#|label: reg_tbl
+#|label: tbl-two
 #|tbl-cap: "Regression Table"
 #|echo: false
 
@@ -60,16 +60,21 @@ regress<- tbl_uvregression(
 	cytomeg,
 	y = prior.chemo,
 	include = c(time.to.cmv, cmv, diagnosis.type),
+	label = list(
+		time.to.cmv ~ "Time to CMV reactivation",
+		cmv ~ "CMV reactivation post-transplant (0 = no, 1 = yes)", 
+		diagnosis.type ~ "Type of diagnosis (0 = lymphoid, 1 = myeloid)"
+	),
 	method = lm
 )
 
 regress
-inline_text(regress, variable = "cmv")
+
 ```
 
 ```{r}
 #| label: figure
-#| fig-cap: "Figure 1"
+#| fig-cap: "Figure 1: Time to CMV Reactivation in months"
 #| echo: false
 
 fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
@@ -82,6 +87,7 @@ fem_timeto <- inline_text(desc_stats, variable = "time.to.cmv", column = "stat_1
 
 timeto_med<-inline_text(desc_stats, variable = "time.to.cmv", 
 						pattern = "{median} months")
+timeto_regress<-inline_text(regress, variable = "time.to.cmv")
 
 
 fem_timeto
