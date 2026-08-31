@@ -3,7 +3,9 @@ title: "Final Project"
 format: html
 editor: visual
 ---
+
 This data comes from higgi13425's medical data on GitHub. It is a package of a collection of 19 medical datasets which come from historical sources including James Lind's scurvy dataset from 1757, the original streptomycin for TB trial 1948, and cohort data on SARS-CoV2 testing results in 2020. The data I am using comes from a Cytomegalovirus Retrospective Cohort Study of 64 patients including information on allogeneic hematopoietic stem cell transplant, where the primary outcome is time to cytomegalovirus reactivation. (online source: github.com/higgi13425/medicaldata/)
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -85,15 +87,17 @@ fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Mo
 
 ```{r}
 #| echo: false
-fem_timeto <- inline_text(desc_stats, variable = "time.to.cmv", column = "stat_1")
+fem_timeto <- inline_text(desc_stats, variable = "time.to.cmv", column = "stat_1", 
+													pattern = "{median}")
 
 timeto_med<-inline_text(desc_stats, variable = "time.to.cmv", 
 						pattern = "{median} months")
 timeto_regress<-inline_text(regress, variable = "time.to.cmv")
-timeto_regress
+
 
 
 ```
 
-The median months until CMV reactivation was `r timeto_med`
+The median months until CMV reactivation for the entire 64 person sample was `r timeto_med`, while for females only, it was `r fem_timeto` months, and for males only it was `r inline_text(desc_stats, variable = "time.to.cmv", column = "stat_2", pattern = "{median}")` months.
+
 
