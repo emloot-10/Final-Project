@@ -69,3 +69,8 @@ inline_text(regress, variable = "cmv")
 fig_one<-hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
 		 col = "navy")
 ```
+
+```{r}
+
+@figure 
+```

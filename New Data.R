@@ -84,6 +84,9 @@ hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
 ###"WRITE AND USE A FUNCTION WITH THE DATA"###
 #function to turn 0's into no and 1's to yes for certain variables
 
-y_n <- function(data, variable){
-
+y_n <- function(data){
+	ifelse(data == 0, "no",
+				 ifelse(data == 1, "yes", NA))
 }
+
+y_n(cytomeg$diagnosis.type)
