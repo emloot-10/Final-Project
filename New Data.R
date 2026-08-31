@@ -35,7 +35,20 @@ cytomeg <- medicaldata::cytomegalovirus
 #								 skip = 1, col_names = cytomeg_cols)
 
 
+###"WRITE AND USE A FUNCTION WITH THE DATA"###
+#function to turn 0's into no and 1's to yes for certain variables
 
+y_n <- function(data){
+	yn<-ifelse(data == 0, "no",
+				 ifelse(data == 1, "yes", NA))
+	return(yn)
+}
+
+#creating a new column in the df to make it a character variable
+
+cytomeg$prior.radiation.char<-y_n(cytomeg$prior.radiation)
+cytomeg$prior.transplant.char<-y_n(cytomeg$prior.transplant)
+cytomeg$cmv.char<-y_n(cytomeg$cmv)
 
 ###CREATE A GTSUMMARY TABLE WITH DESCRIPTIVE STATISTICS"###
 
@@ -80,13 +93,3 @@ tbl_summary(
 hist(cytomeg$time.to.cmv, main = "Time to CMV Reactivation", xlab = "Months",
 		 col = "navy")
 
-
-###"WRITE AND USE A FUNCTION WITH THE DATA"###
-#function to turn 0's into no and 1's to yes for certain variables
-
-y_n <- function(data){
-	ifelse(data == 0, "no",
-				 ifelse(data == 1, "yes", NA))
-}
-
-y_n(cytomeg$diagnosis.type)
